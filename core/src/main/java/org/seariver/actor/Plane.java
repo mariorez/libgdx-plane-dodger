@@ -16,14 +16,14 @@ public class Plane extends BaseActor {
         setBoundaryPolygon(8);
     }
 
-    public void act(float dt) {
+    public void act(float deltaTime) {
 
-        super.act(dt);
+        super.act(deltaTime);
 
         // simulate force of gravity
         setAcceleration(800);
         accelerateAtAngle(270);
-        applyPhysics(dt);
+        applyPhysics(deltaTime);
 
         // stop plane from passing through the ground
         for (BaseActor g : BaseActor.getList(this.getStage(), "org.seariver.actor.Ground")) {

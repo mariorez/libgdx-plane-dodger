@@ -22,7 +22,7 @@ public class LevelScreen extends BaseScreen {
         BaseActor.setWorldBounds(800, 600);
     }
 
-    public void update(float dt) {
+    public void update(float deltaTime) {
     }
 
     public boolean keyDown(int keyCode) {
@@ -31,10 +31,5 @@ public class LevelScreen extends BaseScreen {
             plane.boost();
 
         return true;
-    }
-
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
     }
 }

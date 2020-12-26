@@ -12,11 +12,11 @@ public class Sky extends BaseActor {
         setMotionAngle(180);
     }
 
-    public void act(float dt) {
+    public void act(float deltaTime) {
 
-        super.act(dt);
+        super.act(deltaTime);
 
-        applyPhysics(dt);
+        applyPhysics(deltaTime);
 
         // if moved completely past left edge of screen:
         // shift right, past other instance.

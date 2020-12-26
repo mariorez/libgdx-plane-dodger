@@ -15,6 +15,7 @@ public class Ground extends BaseActor {
     public void act(float dt) {
 
         super.act(dt);
+
         applyPhysics(dt);
 
         // if moved completely past left edge of screen:

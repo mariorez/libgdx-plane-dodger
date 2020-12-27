@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import org.seariver.BaseActor;
 import org.seariver.BaseGame;
 import org.seariver.BaseScreen;
+import org.seariver.actor.Enemy;
 import org.seariver.actor.Ground;
 import org.seariver.actor.Plane;
 import org.seariver.actor.Sky;
@@ -20,6 +21,13 @@ public class LevelScreen extends BaseScreen {
 
     int score;
     Label scoreLabel;
+
+    float enemyTimer;
+    float enemySpawnInterval;
+    float enemySpeed;
+
+    boolean gameOver;
+    BaseActor gameOverMessage;
 
     public void initialize() {
 
@@ -39,10 +47,21 @@ public class LevelScreen extends BaseScreen {
         uiTable.pad(10);
         uiTable.add(scoreLabel);
         uiTable.row();
-        uiTable.add().expandY();
+        uiTable.add(gameOverMessage).expandY();
+
+        enemyTimer = 0;
+        enemySpeed = 100;
+        enemySpawnInterval = 3;
+
+        gameOver = false;
+        gameOverMessage = new BaseActor(0, 0, uiStage);
+        gameOverMessage.loadTexture("game-over.png");
+        gameOverMessage.setVisible(false);
     }
 
     public void update(float deltaTime) {
+
+        if (gameOver) return;
 
         starTimer += deltaTime;
 
@@ -56,6 +75,33 @@ public class LevelScreen extends BaseScreen {
                 star.remove();
                 score++;
                 scoreLabel.setText(Integer.toString(score));
+            }
+        }
+
+        enemyTimer += deltaTime;
+
+        if (enemyTimer > enemySpawnInterval) {
+            Enemy enemy = new Enemy(800, MathUtils.random(100, 500), mainStage);
+            enemy.setSpeed(enemySpeed);
+            enemyTimer = 0;
+            enemySpawnInterval -= 0.10f;
+            enemySpeed += 10;
+            if (enemySpawnInterval < 0.5f)
+                enemySpawnInterval = 0.5f;
+            if (enemySpeed > 400)
+                enemySpeed = 400;
+        }
+
+        for (BaseActor enemy : BaseActor.getList(mainStage, "org.seariver.actor.Enemy")) {
+            if (plane.overlaps(enemy)) {
+                plane.remove();
+                gameOver = true;
+                gameOverMessage.setVisible(true);
+            }
+            if (enemy.getX() + enemy.getWidth() < 0) {
+                score++;
+                scoreLabel.setText(Integer.toString(score));
+                enemy.remove();
             }
         }
     }

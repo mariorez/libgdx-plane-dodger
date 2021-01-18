@@ -2,6 +2,10 @@
 
 Side-scrolling action game inspired by games such as Flappy Bird and Jetpack Joyride
 
+**Controls**
+
+- Space bar: boosts the plane
+
 ![alt text](plane-dodger.png "Plane Dodger")
 
 ## Setup
